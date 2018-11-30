@@ -12,6 +12,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setScreenDims();
+
+        gameScreen = findViewById(R.id.gameScreen);
+        Touch.setTouchListener(gameScreen);
+        createAndStartMainThread();
     }
     private void createAndStartMainThread() {
         mainThread = new Thread() {
@@ -25,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
                                 gameScreen.draw();
                             }
                         });
-                        if(bob - System.currentTimeMillis() + 30 > 0) {
-                            Thread.sleep(bob - System.currentTimeMillis() + 30);
+                        if(bob - System.currentTimeMillis() + 20 > 0) {
+                            Thread.sleep(bob - System.currentTimeMillis() + 20);
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
