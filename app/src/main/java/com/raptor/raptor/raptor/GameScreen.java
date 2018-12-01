@@ -3,6 +3,7 @@ package com.raptor.raptor.raptor;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -30,6 +31,7 @@ public class GameScreen extends View {
     }
     @Override
     protected void onDraw(Canvas canvas) {
+
         super.onDraw(canvas);
     }
     void draw() {

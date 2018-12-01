@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         mainThread = new Thread() {
             public void run() {
                 while (mainThread.isAlive()) {
-                    long bob = System.currentTimeMillis();
+                    long prevMillis = System.currentTimeMillis();
                     try {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -31,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
                                 gameScreen.draw();
                             }
                         });
-                        if(bob - System.currentTimeMillis() + 20 > 0) {
-                            Thread.sleep(bob - System.currentTimeMillis() + 20);
+                        long waitTime = prevMillis - System.currentTimeMillis() + 17;
+                        if(waitTime > 0) {
+                            Thread.sleep(waitTime);
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
