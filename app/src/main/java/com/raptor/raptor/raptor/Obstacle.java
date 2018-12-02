@@ -6,7 +6,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 class Obstacle {
-    private int type, i;
+    int type;
+    private int i;
     private Paint paint;
 
     Obstacle(int type, int i) {

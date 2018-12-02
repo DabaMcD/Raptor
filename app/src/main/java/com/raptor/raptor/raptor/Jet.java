@@ -8,7 +8,8 @@ import android.graphics.Path;
 class Jet {
     private float x;
     float y;
-    private double sca, x2, y2, i;
+    double sca, x2, y2;
+    private double i;
     String height;
     private Paint paint;
     Jet(float x, float y) {
