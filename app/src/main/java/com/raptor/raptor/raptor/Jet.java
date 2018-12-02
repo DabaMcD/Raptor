@@ -27,7 +27,7 @@ class Jet {
         canvas.save();
         canvas.translate(x, y);
         canvas.scale((float) sca, (float) sca);
-        canvas.rotate((float) Math.toRadians(Math.cos(i * 30)));
+        canvas.rotate((float) Math.cos(Math.toRadians(i * 30)));
 
         // Shadow
         paint.setStyle(Paint.Style.FILL);
@@ -56,10 +56,10 @@ class Jet {
         canvas.translate(-5, -5);
 
         paint.setColor(Color.rgb(255, 0, 0));
-        if ((Math.cos(i * 6) * 20) >= 0) {
-            triangle(-7, 20 - 12, 7, 21 - 12, 0, (float) (Math.cos(i * 6) * 20), canvas);
+        if ((Math.cos(Math.toRadians(i * 6)) * 20) >= 0) {
+            triangle(-7, 20 - 12, 7, 21 - 12, 0, (float) (Math.cos(Math.toRadians(i * 6)) * 20), canvas);
         } else {
-            triangle(-7, 20 - 12, 7, 21 - 12, 0, (float) (-Math.cos(i * 6) * 20), canvas);
+            triangle(-7, 20 - 12, 7, 21 - 12, 0, (float) (-Math.cos(Math.toRadians(i * 6)) * 20), canvas);
         }
 
         paint.setColor(Color.rgb(32, 125, 247));

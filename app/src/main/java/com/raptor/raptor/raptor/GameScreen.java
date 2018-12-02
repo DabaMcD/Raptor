@@ -4,6 +4,8 @@ package com.raptor.raptor.raptor;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -20,7 +22,7 @@ public class GameScreen extends View {
     private ArrayList<Obstacle> b;
     private int i;
     boolean dead, start, replay;
-    private float y;
+    float y;
     private double speed = 5;
     private double f4, f3, f;
     double f2;
@@ -29,20 +31,19 @@ public class GameScreen extends View {
     InitText initText;
     DieText dieText;
     ScoreText scoreText;
+    Paint paint;
+    int score;
 
     public GameScreen(Context context) {
         super(context);
-        constructor(context);
     }
     public GameScreen(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        constructor(context);
     }
     public GameScreen(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        constructor(context);
     }
-    private void constructor(Context context) {
+    void constructor(Context context) {
         this.context = context;
         b = new ArrayList<>();
         dead = true;
@@ -58,14 +59,17 @@ public class GameScreen extends View {
         f3 = 0d;
         f = 255d;
         sc = new ArrayList<>();
-        sc.add(35f);
-        sc.add(10f);
-        sc.add(Screen.width / 40f);
+        sc.add(20f);
+        sc.add(Screen.height / 20f);
+        sc.add(Screen.width / 20f);
         highscore = readScore();
+        paint = new Paint();
         createJetAndFirstObstacles();
     }
     @Override
     protected void onDraw(Canvas canvas) {
+        paint.setColor(Color.rgb(235, 235, 235));
+        canvas.drawPaint(paint);
         drawBlackObstacles(canvas);
         jet.draw(canvas);
         drawRedObstacles(canvas);
@@ -86,9 +90,9 @@ public class GameScreen extends View {
         if(dead & start) {
             jet.height = "down";
             dieText.draw(canvas, f2);
-            sc.set(2, (Screen.width / 20f - sc.get(2)) / 10f);
-            sc.set(1, (Screen.height - 200f - 30f - sc.get(1)) / 10f);
-            sc.set(0, (Screen.width / 2f - sc.get(0)) / 10f);
+            sc.set(2, sc.get(2) + (Screen.width / 20f - sc.get(2)) / 10f);
+            sc.set(1, sc.get(1) + (Screen.height / 8 * 5 - sc.get(1)) / 10f);
+            sc.set(0, sc.get(0) + (((Screen.width - scoreText.halfTextWidth(y)) / 2f) - sc.get(0)) / 10f);
         }
 
         if (dead && start && !replay) {
@@ -197,7 +201,7 @@ public class GameScreen extends View {
         }
     }
     private void restartGame() {
-        writeScore(Math.max(Math.round(y / 150), highscore));
+        writeScore(Math.max(score, highscore));
         Intent i = context.getApplicationContext().getPackageManager()
                 .getLaunchIntentForPackage(context.getApplicationContext().getPackageName());
         if(i != null) {
@@ -232,6 +236,10 @@ public class GameScreen extends View {
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
-        return Integer.parseInt(text);
+        if(text.equals("")) {
+            return 0;
+        } else {
+            return Integer.parseInt(text);
+        }
     }
 }

@@ -23,4 +23,7 @@ class ScoreText {
         paint.setColor(Color.argb((int) f4, 235, 235, 235));
         canvas.drawRect(-10, -10, Screen.width + 10, Screen.height + 10, paint);
     }
+    float halfTextWidth(float y) {
+        return paint.measureText("Score: " + String.valueOf(Math.round(y / 150)));
+    }
 }

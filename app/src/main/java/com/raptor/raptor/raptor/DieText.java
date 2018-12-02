@@ -9,12 +9,13 @@ class DieText {
     DieText() {
         paint = new Paint();
         paint.setAntiAlias(true);
+        paint.setTextAlign(Paint.Align.CENTER);
     }
     void draw(Canvas canvas, double f2) {
         paint.setColor(Color.argb((int) f2, 45, 45, 45));
-        paint.setTextSize(50);
-        canvas.drawText("YOU DIED", Screen.width / 2, Screen.height - 200 - 100, paint);
-        paint.setTextSize(15);
-        canvas.drawText("CLICK TO RESTART", Screen.width / 2, Screen.height - 200 - 65, paint);
+        paint.setTextSize(Screen.width / 8);
+        canvas.drawText("YOU DIED", Screen.width / 2, Screen.height / 2, paint);
+        paint.setTextSize(Screen.width / 30);
+        canvas.drawText("CLICK TO RESTART", Screen.width / 2, Screen.height / 16 * 9, paint);
     }
 }
