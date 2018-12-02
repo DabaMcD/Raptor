@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setScreenDims();
 
         gameScreen = findViewById(R.id.gameScreen);
-        Touch.setTouchListener(gameScreen);
+        Touch.setTouchListener(gameScreen, gameScreen);
         createAndStartMainThread();
     }
     private void createAndStartMainThread() {

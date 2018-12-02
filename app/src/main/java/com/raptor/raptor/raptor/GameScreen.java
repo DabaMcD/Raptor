@@ -8,6 +8,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameScreen extends View {
@@ -16,12 +20,15 @@ public class GameScreen extends View {
     private ArrayList<Obstacle> b;
     private int i;
     boolean dead, start, replay;
-    float y;
-    double speed = 5;
-    double f4, f2, f3/*, f*/;
+    private float y;
+    private double speed = 5;
+    private double f4, f3, f;
+    double f2;
+    private int highscore;
     ArrayList<Float> sc;
     InitText initText;
     DieText dieText;
+    ScoreText scoreText;
 
     public GameScreen(Context context) {
         super(context);
@@ -45,13 +52,16 @@ public class GameScreen extends View {
         f4 = 255d;
         initText = new InitText();
         dieText = new DieText();
+        scoreText = new ScoreText();
         start = false;
         f2 = 0d;
         f3 = 0d;
+        f = 255d;
         sc = new ArrayList<>();
         sc.add(35f);
         sc.add(10f);
         sc.add(Screen.width / 40f);
+        highscore = readScore();
         createJetAndFirstObstacles();
     }
     @Override
@@ -61,7 +71,7 @@ public class GameScreen extends View {
         drawRedObstacles(canvas);
 
         if (!dead) {
-            f4 -= f4 / 20f;
+            f4 -= f4 / 20d;
             y += speed;
             speed += 0.003d;
             if (speed > 13d) {
@@ -71,39 +81,53 @@ public class GameScreen extends View {
 
         touchyStuff();
 
+        initText.draw(canvas, (float) f, y);
+
         if(dead & start) {
             jet.height = "down";
             dieText.draw(canvas, f2);
-            sc.set(2, (Screen.width / 20 - sc.get(2)) / 10);
-            sc.set(1, (Screen.height - 200 - 30 - sc.get(1)) / 10);
-            sc.set(0, (Screen.width/2 - sc.get(0)) / 10);
+            sc.set(2, (Screen.width / 20f - sc.get(2)) / 10f);
+            sc.set(1, (Screen.height - 200f - 30f - sc.get(1)) / 10f);
+            sc.set(0, (Screen.width / 2f - sc.get(0)) / 10f);
         }
 
         if (dead && start && !replay) {
-            f2 += (255 - f2) / 10;
+            f2 += (255d - f2) / 10d;
         }
 
         if(replay) {
             y -= y/10;
-            f2 -= f2/10;
-            f3 -= f3/10;
-            sc.set(2, sc.get(2) + (15 - sc.get(2)) / 10);
-            sc.set(1, sc.get(1) + (10 - sc.get(1)) / 10);
-            sc.set(0, sc.get(0) + (35 - sc.get(0)) / 10);
-            f4 += (255 - f4) / 5;
+            f2 -= f2/10d;
+            f3 -= f3/10d;
+            sc.set(2, sc.get(2) + (15f - sc.get(2)) / 10f);
+            sc.set(1, sc.get(1) + (10f - sc.get(1)) / 10f);
+            sc.set(0, sc.get(0) + (35f - sc.get(0)) / 10f);
+            f4 += (255d - f4) / 5d;
             if (y <= 1) {
                 restartGame();
                 dead = true;
                 replay = false;
             }
         }
+
+        if (start && !replay) {
+            f3 += (255d - f3) / 10d;
+            f -= f/10d;
+        }
+
+        scoreText.draw(canvas, sc, f3, f4, y, highscore);
+
+        if (dead && !start && !replay) {
+            f4 -= f4/20d;
+        }
+
         super.onDraw(canvas);
     }
     void draw() {
         invalidate();
         requestLayout();
     }
-    void createJetAndFirstObstacles() {
+    private void createJetAndFirstObstacles() {
         jet = new Jet(Screen.width / 2, Screen.height - 100);
 
         b.add(new Obstacle(roundRandom(1, 3), i));
@@ -114,7 +138,7 @@ public class GameScreen extends View {
             b.add(new Obstacle(roundRandom(1, 4), i));
         }
     }
-    int roundRandom(int min, int max) {
+    private int roundRandom(int min, int max) {
         if(min == max) {
             return min;
         }
@@ -125,7 +149,7 @@ public class GameScreen extends View {
         }
         return (int) Math.round((Math.random() * (max - min)) + min);
     }
-    void drawBlackObstacles(Canvas canvas) {
+    private void drawBlackObstacles(Canvas canvas) {
         for (int j = b.size() - 1; j >= 0; j--) {
             if (b.get(j).type == 3 || b.get(j).type == 4) {
                 b.get(j).draw(canvas, y);
@@ -140,7 +164,7 @@ public class GameScreen extends View {
             }
         }
     }
-    void drawRedObstacles(Canvas canvas) {
+    private void drawRedObstacles(Canvas canvas) {
         for (int j = b.size() - 1; j >= 0; j--) {
             if (b.get(j).type == 1 || b.get(j).type == 2) {
                 b.get(j).draw(canvas, y);
@@ -155,7 +179,7 @@ public class GameScreen extends View {
             }
         }
     }
-    void touchyStuff() {
+    private void touchyStuff() {
         if(Touch.isTouching) {
             jet.height = "down";
             if (!dead) {
@@ -172,14 +196,42 @@ public class GameScreen extends View {
             }
         }
     }
-    void restartGame() {
-        try {
-            Intent i = context.getApplicationContext().getPackageManager()
-                    .getLaunchIntentForPackage(context.getApplicationContext().getPackageName());
+    private void restartGame() {
+        writeScore(Math.max(Math.round(y / 150), highscore));
+        Intent i = context.getApplicationContext().getPackageManager()
+                .getLaunchIntentForPackage(context.getApplicationContext().getPackageName());
+        if(i != null) {
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(i);
-        } catch (NullPointerException e) {
+        } else {
+            System.out.println("Intent was null!");
+        }
+        context.startActivity(i);
+    }
+    private void writeScore(int score) {
+        context.deleteFile("highscore.txt");
+        File path = context.getFilesDir();
+        File file = new File(path, "highscore.txt");
+        try {
+            FileOutputStream stream = new FileOutputStream(file);
+            stream.write(String.valueOf(score).getBytes());
+            stream.close();
+        } catch(IOException e) {
             e.printStackTrace();
         }
+    }
+    private int readScore() {
+        String text = "";
+        FileInputStream fis;
+        try {
+            fis = context.openFileInput("highscore.txt");
+            int size = fis.available();
+            byte[] buffer = new byte[size];
+            fis.read(buffer);
+            fis.close();
+            text = new String(buffer);
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+        return Integer.parseInt(text);
     }
 }
