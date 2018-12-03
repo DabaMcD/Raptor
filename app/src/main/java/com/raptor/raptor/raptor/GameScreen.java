@@ -70,9 +70,21 @@ public class GameScreen extends View {
     protected void onDraw(Canvas canvas) {
         paint.setColor(Color.rgb(235, 235, 235));
         canvas.drawPaint(paint);
+        canvas.save();
+        canvas.translate(0, jet.y);
+        canvas.scale(1, (float) jet.scale);
+        canvas.translate(0, -jet.y);
         drawBlackObstacles(canvas);
+        canvas.restore();
+
         jet.draw(canvas);
+
+        canvas.save();
+        canvas.translate(0, jet.y);
+        canvas.scale(1, (float) jet.scale);
+        canvas.translate(0, -jet.y);
         drawRedObstacles(canvas);
+        canvas.restore();
 
         if (!dead) {
             f4 -= f4 / 20d;

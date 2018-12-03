@@ -21,14 +21,13 @@ class Jet {
         x2 = 5;
         y2 = 5;
         i = 0;
-        scale = Screen.width / 400;
+        scale = 2; // todo : change to "Screen.width / 400"
         paint = new Paint();
         paint.setAntiAlias(true);
     }
     void draw(Canvas canvas) {
         canvas.save();
         canvas.translate(x, y);
-        canvas.scale((float) scale, (float) scale);
         canvas.scale((float) sca, (float) sca);
         canvas.rotate((float) Math.cos(Math.toRadians(i * 30)));
 
@@ -36,54 +35,51 @@ class Jet {
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.argb(75, 0, 0, 0));
         Path shadow = new Path();
-        shadow.moveTo((float) x2, (float) (-12 + y2));
-        shadow.lineTo((float) (-20 + x2), (float) (24 - 12 + y2));
-        shadow.lineTo((float) (-11 + x2), (float) (20 - 12 + y2));
-        shadow.lineTo((float) (-5 + x2), (float) (23 - 12 + y2));
-        shadow.lineTo((float) (-2 + x2), (float) (21 - 12 + y2));
-        shadow.lineTo((float) x2, (float) (20 - 12 + y2));
+        shadow.moveTo((float) (x2 * scale), (float) ((-12 + y2) * scale));
+        shadow.lineTo((float) ((-20 + x2) * scale), (float) ((24 - 12 + y2) * scale));
+        shadow.lineTo((float) ((-11 + x2) * scale), (float) ((20 - 12 + y2) * scale));
+        shadow.lineTo((float) ((-5 + x2) * scale), (float) ((23 - 12 + y2) * scale));
+        shadow.lineTo((float) ((-2 + x2) * scale), (float) ((21 - 12 + y2) * scale));
+        shadow.lineTo((float) (x2 * scale), (float) ((20 - 12 + y2) * scale));
         shadow.close();
         canvas.drawPath(shadow, paint);
 
         Path shadow2 = new Path();
-        shadow2.moveTo((float) x2, (float) (-12 + y2));
-        shadow2.lineTo((float) (20 + x2), (float) (24 - 12 + y2));
-        shadow2.lineTo((float) (11 + x2), (float) (20 - 12 + y2));
-        shadow2.lineTo((float) (5 + x2), (float) (23 - 12 + y2));
-        shadow2.lineTo((float) (2 + x2), (float) (21 - 12 + y2));
-        shadow2.lineTo((float) x2, (float) (20 - 12 + y2));
+        shadow2.moveTo((float) (x2 * scale), (float) ((-12 + y2) * scale));
+        shadow2.lineTo((float) ((20 + x2) * scale), (float) ((24 - 12 + y2) * scale));
+        shadow2.lineTo((float) ((11 + x2) * scale), (float) ((20 - 12 + y2) * scale));
+        shadow2.lineTo((float) ((5 + x2) * scale), (float) ((23 - 12 + y2) * scale));
+        shadow2.lineTo((float) ((2 + x2) * scale), (float) ((21 - 12 + y2) * scale));
+        shadow2.lineTo((float) (x2 * scale), (float) ((20 - 12 + y2) * scale));
         shadow2.close();
         canvas.drawPath(shadow2, paint);
 
         // Jet
-        canvas.translate(-5, -5);
+        canvas.translate((float) (-5 * scale), (float) (-5 * scale));
 
         paint.setColor(Color.rgb(255, 0, 0));
-        if ((Math.cos(Math.toRadians(i * 6)) * 20) >= 0) {
-            triangle(-7, 20 - 12, 7, 21 - 12, 0, (float) (Math.cos(Math.toRadians(i * 6)) * 20), canvas);
-        } else {
-            triangle(-7, 20 - 12, 7, 21 - 12, 0, (float) (-Math.cos(Math.toRadians(i * 6)) * 20), canvas);
-        }
+
+        triangle((float) (-7 * scale), (float) ((20 - 12) * scale), (float) (7 * scale), (float) ((21 - 12) * scale), 0, (float) ((Math.abs(Math.cos(Math.toRadians(i * 6))) * 20) * scale), canvas);
 
         paint.setColor(Color.rgb(32, 125, 247));
         Path realJet = new Path();
-        realJet.moveTo(0, -12);
-        realJet.lineTo(-20, 24 - 12);
-        realJet.lineTo(-11, 20 - 12);
-        realJet.lineTo(-5, 23 - 12);
-        realJet.lineTo(-2, 21 - 12);
-        realJet.lineTo(0, 20 - 12);
+        realJet.moveTo(0, (float) (-12 * scale));
+        realJet.lineTo((float) (-20 * scale), (float) ((24 - 12) * scale));
+        realJet.lineTo((float) (-11 * scale), (float) ((20 - 12) * scale));
+        realJet.lineTo((float) (-5 * scale), (float) ((23 - 12) * scale));
+        realJet.lineTo((float) (-2 * scale), (float) ((21 - 12) * scale));
+        realJet.lineTo(0, (float) ((20 - 12) * scale));
         realJet.close();
         canvas.drawPath(realJet, paint);
 
         paint.setColor(Color.rgb(20, 101, 207));
         Path realJet2 = new Path();
-        realJet2.moveTo(0, -12);
-        realJet2.lineTo(20, 24 - 12);
-        realJet2.lineTo(11, 20 - 12);
-        realJet2.lineTo(5, 23 - 12);
-        realJet2.lineTo(2, 21 - 12);
-        realJet2.lineTo(0, 20 - 12);
+        realJet2.moveTo(0, (float) (-12 * scale));
+        realJet2.lineTo((float) (20 * scale), (float) ((24 - 12) * scale));
+        realJet2.lineTo((float) (11 * scale), (float) ((20 - 12) * scale));
+        realJet2.lineTo((float) (5 * scale), (float) ((23 - 12) * scale));
+        realJet2.lineTo((float) (2 * scale), (float) ((21 - 12) * scale));
+        realJet2.lineTo(0, (float) ((20 - 12) * scale));
         realJet2.close();
         canvas.drawPath(realJet2, paint);
 
