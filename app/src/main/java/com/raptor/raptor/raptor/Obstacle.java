@@ -7,12 +7,12 @@ import android.graphics.Path;
 
 class Obstacle {
     int type;
-    private int i;
+    private float i;
     private Paint paint;
 
-    Obstacle(int type, int i) {
+    Obstacle(int type, int i, Jet jet) {
         this.type = type;
-        this.i = -i * 250;
+        this.i = (float) ((-i * 250) + Screen.height - (Screen.height / jet.scale));
         paint = new Paint();
         paint.setAntiAlias(true);
     }
@@ -42,11 +42,11 @@ class Obstacle {
         }
         return false;
     }
-    void draw(Canvas canvas, float y, Jet c) {
+    void draw(Canvas canvas, float y) {
         canvas.save();
         // The transformations below do nothing but center the obstacles
         canvas.translate(Screen.width / 2, 0);
-        canvas.scale(Screen.width / 400, 1);
+        canvas.scale((float) (Screen.width / 400), 1);
         canvas.translate(-200, 0);
         switch (this.type) {
             // small red

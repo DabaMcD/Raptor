@@ -21,7 +21,7 @@ class Jet {
         x2 = 5;
         y2 = 5;
         i = 0;
-        scale = 2; // todo : change to "Screen.width / 400"
+        scale = Screen.width / 400;
         paint = new Paint();
         paint.setAntiAlias(true);
     }

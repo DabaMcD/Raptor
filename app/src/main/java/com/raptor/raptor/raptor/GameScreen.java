@@ -102,7 +102,7 @@ public class GameScreen extends View {
         if(dead & start) {
             jet.height = "down";
             dieText.draw(canvas, f2);
-            sc.set(2, sc.get(2) + (Screen.width / 20f - sc.get(2)) / 10f);
+            sc.set(2, sc.get(2) + (Screen.width / 13f - sc.get(2)) / 10f);
             sc.set(1, sc.get(1) + (Screen.height / 8 * 5 - sc.get(1)) / 10f);
             sc.set(0, sc.get(0) + (((Screen.width - scoreText.halfTextWidth(y)) / 2f) - sc.get(0)) / 10f);
         }
@@ -146,12 +146,12 @@ public class GameScreen extends View {
     private void createJetAndFirstObstacles() {
         jet = new Jet(Screen.width / 2, Screen.height - 100);
 
-        b.add(new Obstacle(roundRandom(1, 3), i));
+        b.add(new Obstacle(roundRandom(1, 3), i, jet));
         i = 1;
-        b.add(new Obstacle(roundRandom(1, 3), i));
+        b.add(new Obstacle(roundRandom(1, 3), i, jet));
         i = 2;
         for (i = 2; -i * 250 > -Screen.height - 800; i++) {
-            b.add(new Obstacle(roundRandom(1, 4), i));
+            b.add(new Obstacle(roundRandom(1, 4), i, jet));
         }
     }
     private int roundRandom(int min, int max) {
@@ -168,13 +168,13 @@ public class GameScreen extends View {
     private void drawBlackObstacles(Canvas canvas) {
         for (int j = b.size() - 1; j >= 0; j--) {
             if (b.get(j).type == 3 || b.get(j).type == 4) {
-                b.get(j).draw(canvas, y, jet);
+                b.get(j).draw(canvas, y);
                 if(b.get(j).collide(jet, y)) {
                     dead = true;
                 }
                 if(b.get(j).die(y)) {
                     b.remove(0);
-                    b.add(new Obstacle(roundRandom(1, 4), i));
+                    b.add(new Obstacle(roundRandom(1, 4), i, jet));
                     i++;
                 }
             }
@@ -183,13 +183,13 @@ public class GameScreen extends View {
     private void drawRedObstacles(Canvas canvas) {
         for (int j = b.size() - 1; j >= 0; j--) {
             if (b.get(j).type == 1 || b.get(j).type == 2) {
-                b.get(j).draw(canvas, y, jet);
+                b.get(j).draw(canvas, y);
                 if(b.get(j).collide(jet, y)) {
                     dead = true;
                 }
                 if(b.get(j).die(y)) {
                     b.remove(0);
-                    b.add(new Obstacle(roundRandom(1, 4), i));
+                    b.add(new Obstacle(roundRandom(1, 4), i, jet));
                     i++;
                 }
             }
@@ -222,6 +222,7 @@ public class GameScreen extends View {
             System.out.println("Intent was null!");
         }
         context.startActivity(i);
+
     }
     private void writeScore(int score) {
         context.deleteFile("highscore.txt");

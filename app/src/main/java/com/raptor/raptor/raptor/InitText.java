@@ -21,7 +21,7 @@ class InitText {
         if(paint.measureText("Hold to dive under red obstacles, let off to fly over black ones") >= Screen.width * 9 / 10) {
             canvas.drawText("Hold to dive under red obstacles,", Screen.width / 2, (float) (y + Screen.height - 30 - paint.getTextSize() * 1.75), paint);
             canvas.drawText("let off to fly over black ones", Screen.width / 2, y + Screen.height - 30, paint);
-        } else { // todo: make sure code above doesn't need adjusting
+        } else {
             canvas.drawText("Hold to dive under red obstacles, let off to fly over black ones", Screen.width / 2, y + Screen.height - 30, paint);
         }
     }
