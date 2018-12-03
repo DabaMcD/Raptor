@@ -8,11 +8,13 @@ import java.util.ArrayList;
 
 class ScoreText {
     private Paint paint;
-    ScoreText() {
+    private int highscore;
+    ScoreText(int highscore) {
+        this.highscore = highscore;
         paint = new Paint();
         paint.setAntiAlias(true);
     }
-    void draw(Canvas canvas, ArrayList<Float> sc, double f3, double f4, float y, int highscore) {
+    void draw(Canvas canvas, ArrayList<Float> sc, double f3, double f4, float y) {
         paint.setTextSize(Screen.width / 20);
         paint.setColor(Color.argb((int) f3, 45, 45, 45));
         canvas.drawText("Highscore: " + String.valueOf(highscore), Screen.width - 20 - paint.measureText("Highscore: " + String.valueOf(highscore)), Screen.height / 20, paint);

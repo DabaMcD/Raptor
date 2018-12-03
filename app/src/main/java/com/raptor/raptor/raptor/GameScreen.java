@@ -23,7 +23,7 @@ public class GameScreen extends View {
     private int i;
     boolean dead, start, replay;
     float y;
-    private double speed = 5;
+    private double speed;
     private double f4, f3, f;
     double f2;
     private int highscore;
@@ -33,6 +33,7 @@ public class GameScreen extends View {
     ScoreText scoreText;
     Paint paint;
     int score;
+    boolean savedScore;
 
     public GameScreen(Context context) {
         super(context);
@@ -45,6 +46,7 @@ public class GameScreen extends View {
     }
     void constructor(Context context) {
         this.context = context;
+        i = 0;
         b = new ArrayList<>();
         dead = true;
         replay = false;
@@ -53,16 +55,18 @@ public class GameScreen extends View {
         f4 = 255d;
         initText = new InitText();
         dieText = new DieText();
-        scoreText = new ScoreText();
+        highscore = readScore();
+        scoreText = new ScoreText(highscore);
         start = false;
         f2 = 0d;
         f3 = 0d;
         f = 255d;
+        savedScore = false;
+        speed = 5;
         sc = new ArrayList<>();
         sc.add(20f);
         sc.add(Screen.height / 20f);
         sc.add(Screen.width / 20f);
-        highscore = readScore();
         paint = new Paint();
         createJetAndFirstObstacles();
     }
@@ -101,6 +105,10 @@ public class GameScreen extends View {
 
         if(dead & start) {
             jet.height = "down";
+            if(!savedScore) {
+                score = Math.round(y / 150);
+                writeScore(score);
+            }
             dieText.draw(canvas, f2);
             sc.set(2, sc.get(2) + (Screen.width / 13f - sc.get(2)) / 10f);
             sc.set(1, sc.get(1) + (Screen.height / 8 * 5 - sc.get(1)) / 10f);
@@ -131,7 +139,7 @@ public class GameScreen extends View {
             f -= f/10d;
         }
 
-        scoreText.draw(canvas, sc, f3, f4, y, highscore);
+        scoreText.draw(canvas, sc, f3, f4, y);
 
         if (dead && !start && !replay) {
             f4 -= f4/20d;
@@ -214,15 +222,7 @@ public class GameScreen extends View {
     }
     private void restartGame() {
         writeScore(Math.max(score, highscore));
-        Intent i = context.getApplicationContext().getPackageManager()
-                .getLaunchIntentForPackage(context.getApplicationContext().getPackageName());
-        if(i != null) {
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        } else {
-            System.out.println("Intent was null!");
-        }
-        context.startActivity(i);
-
+        constructor(context);
     }
     private void writeScore(int score) {
         context.deleteFile("highscore.txt");
