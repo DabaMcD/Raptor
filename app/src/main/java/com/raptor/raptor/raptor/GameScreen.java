@@ -156,7 +156,7 @@ public class GameScreen extends View {
     private void drawBlackObstacles(Canvas canvas) {
         for (int j = b.size() - 1; j >= 0; j--) {
             if (b.get(j).type == 3 || b.get(j).type == 4) {
-                b.get(j).draw(canvas, y);
+                b.get(j).draw(canvas, y, jet);
                 if(b.get(j).collide(jet, y)) {
                     dead = true;
                 }
@@ -171,7 +171,7 @@ public class GameScreen extends View {
     private void drawRedObstacles(Canvas canvas) {
         for (int j = b.size() - 1; j >= 0; j--) {
             if (b.get(j).type == 1 || b.get(j).type == 2) {
-                b.get(j).draw(canvas, y);
+                b.get(j).draw(canvas, y, jet);
                 if(b.get(j).collide(jet, y)) {
                     dead = true;
                 }

@@ -11,6 +11,7 @@ class Jet {
     double sca, x2, y2;
     private double i;
     String height;
+    double scale;
     private Paint paint;
     Jet(float x, float y) {
         height = "down";
@@ -20,12 +21,14 @@ class Jet {
         x2 = 5;
         y2 = 5;
         i = 0;
+        scale = Screen.width / 400;
         paint = new Paint();
         paint.setAntiAlias(true);
     }
     void draw(Canvas canvas) {
         canvas.save();
         canvas.translate(x, y);
+        canvas.scale((float) scale, (float) scale);
         canvas.scale((float) sca, (float) sca);
         canvas.rotate((float) Math.cos(Math.toRadians(i * 30)));
 

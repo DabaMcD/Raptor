@@ -42,11 +42,11 @@ class Obstacle {
         }
         return false;
     }
-    void draw(Canvas canvas, float y) {
+    void draw(Canvas canvas, float y, Jet c) {
         canvas.save();
-        canvas.translate(Screen.width / 2, 0);
-        canvas.scale(Screen.width / 400, 1); // todo: may be some scaling errors
-        canvas.translate(-200, 0);
+        canvas.translate(Screen.width / 2, c.y);
+        canvas.scale(Screen.width / 400, (float) c.scale);
+        canvas.translate(-200, (float) (-c.y / c.scale));
         switch (this.type) {
             // small red
             case 1:
