@@ -25,7 +25,7 @@ class Touch {
                             gameScreen.dead = false;
                             gameScreen.start = true;
                         }
-                        if (gameScreen.dead && gameScreen.start && gameScreen.f2 >= 250d) {
+                        if (gameScreen.dead && gameScreen.start && gameScreen.f2 >= 254d) {
                             gameScreen.replay = true;
                             gameScreen.score = Math.round(gameScreen.y / 150);
                         }
