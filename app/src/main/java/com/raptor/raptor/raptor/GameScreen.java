@@ -108,6 +108,7 @@ public class GameScreen extends View {
             if(!savedScore) {
                 score = Math.round(y / 150);
                 writeScore(score);
+                savedScore = true;
             }
             dieText.draw(canvas, f2);
             sc.set(2, sc.get(2) + (Screen.width / 13f - sc.get(2)) / 10f);
