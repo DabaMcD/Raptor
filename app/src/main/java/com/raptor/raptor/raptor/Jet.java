@@ -13,6 +13,7 @@ class Jet {
     String height;
     double scale;
     private Paint paint;
+
     Jet(float x, float y) {
         height = "down";
         this.x = x;
@@ -57,9 +58,14 @@ class Jet {
         // Jet
         canvas.translate((float) (-5 * scale), (float) (-5 * scale));
 
+        // Fire shooting out the back of jet
         paint.setColor(Color.rgb(255, 0, 0));
-
-        triangle((float) (-7 * scale), (float) ((20 - 12) * scale), (float) (7 * scale), (float) ((21 - 12) * scale), 0, (float) ((Math.abs(Math.cos(Math.toRadians(i * 6))) * 20) * scale), canvas);
+        Path path = new Path();
+        path.moveTo((float) (-7 * scale), (float) ((20 - 12) * scale));
+        path.lineTo((float) (7 * scale), (float) ((21 - 12) * scale));
+        path.lineTo(0, (float) ((Math.abs(Math.cos(Math.toRadians(i * 6))) * 20) * scale));
+        path.close();
+        canvas.drawPath(path, paint);
 
         paint.setColor(Color.rgb(32, 125, 247));
         Path realJet = new Path();
@@ -86,13 +92,5 @@ class Jet {
         canvas.restore();
 
         i ++;
-    }
-    private void triangle(float X1, float Y1, float X2, float Y2, float X3, float Y3, Canvas canvas) {
-        Path path = new Path();
-        path.moveTo(X1, Y1);
-        path.lineTo(X2, Y2);
-        path.lineTo(X3, Y3);
-        path.close();
-        canvas.drawPath(path, paint);
     }
 }

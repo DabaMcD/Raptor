@@ -48,10 +48,11 @@ class Obstacle {
         canvas.translate(Screen.width / 2, 0);
         canvas.scale((float) (Screen.width / 400), 1);
         canvas.translate(-200, 0);
+
+        paint.setColor(Color.argb(100, 0, 0, 0));
         switch (this.type) {
             // small red
             case 1:
-                paint.setColor(Color.argb(100, 0, 0, 0));
                 rect(205, y + this.i + 15, 150, 180, canvas);
 
                 paint.setColor(Color.rgb(242, 83, 83));
@@ -62,7 +63,6 @@ class Obstacle {
                 break;
             // big red
             case 2:
-                paint.setColor(Color.argb(100, 0, 0, 0));
                 rect(205, y + this.i + 15, 150, -100, canvas);
 
                 paint.setColor(Color.rgb(242, 83, 83));
@@ -74,7 +74,6 @@ class Obstacle {
 
             // black
             default:
-                paint.setColor(Color.argb(100, 0, 0, 0));
                 rect(205, y + this.i + 15, 100, 50, canvas);
 
                 paint.setColor(Color.rgb(41, 41, 41));

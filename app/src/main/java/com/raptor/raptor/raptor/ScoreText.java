@@ -9,6 +9,7 @@ import java.util.ArrayList;
 class ScoreText {
     private Paint paint;
     private int highscore;
+
     ScoreText(int highscore) {
         this.highscore = highscore;
         paint = new Paint();

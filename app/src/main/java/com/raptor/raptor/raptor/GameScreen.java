@@ -2,7 +2,6 @@ package com.raptor.raptor.raptor;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -155,24 +154,16 @@ public class GameScreen extends View {
     private void createJetAndFirstObstacles() {
         jet = new Jet(Screen.width / 2, Screen.height - 100);
 
-        b.add(new Obstacle(roundRandom(1, 3), i, jet));
+        b.add(new Obstacle(roundRandom(3), i, jet));
         i = 1;
-        b.add(new Obstacle(roundRandom(1, 3), i, jet));
+        b.add(new Obstacle(roundRandom(3), i, jet));
         i = 2;
         for (i = 2; -i * 250 > -Screen.height - 800; i++) {
-            b.add(new Obstacle(roundRandom(1, 4), i, jet));
+            b.add(new Obstacle(roundRandom(4), i, jet));
         }
     }
-    private int roundRandom(int min, int max) {
-        if(min == max) {
-            return min;
-        }
-        if(min > max) {
-            int bob = max;
-            max = min;
-            min = bob;
-        }
-        return (int) Math.round((Math.random() * (max - min)) + min);
+    private int roundRandom(int max) {
+        return (int) Math.round((Math.random() * (max - 1)) + 1);
     }
     private void drawBlackObstacles(Canvas canvas) {
         for (int j = b.size() - 1; j >= 0; j--) {
@@ -183,7 +174,7 @@ public class GameScreen extends View {
                 }
                 if(b.get(j).die(y)) {
                     b.remove(0);
-                    b.add(new Obstacle(roundRandom(1, 4), i, jet));
+                    b.add(new Obstacle(roundRandom(4), i, jet));
                     i++;
                 }
             }
@@ -198,7 +189,7 @@ public class GameScreen extends View {
                 }
                 if(b.get(j).die(y)) {
                     b.remove(0);
-                    b.add(new Obstacle(roundRandom(1, 4), i, jet));
+                    b.add(new Obstacle(roundRandom(4), i, jet));
                     i++;
                 }
             }

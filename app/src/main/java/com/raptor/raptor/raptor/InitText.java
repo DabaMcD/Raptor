@@ -6,6 +6,7 @@ import android.graphics.Paint;
 
 class InitText {
     private Paint paint;
+
     InitText() {
         paint = new Paint();
         paint.setAntiAlias(true);

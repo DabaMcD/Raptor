@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         Screen.width = size.x;
         Screen.height = size.y - getStatusBarHeight();
     }
-    public int getStatusBarHeight() {
+    private int getStatusBarHeight() {
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
