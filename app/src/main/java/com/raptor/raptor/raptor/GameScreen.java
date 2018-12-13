@@ -26,13 +26,14 @@ public class GameScreen extends View {
     private double f4, f3, f;
     double f2;
     private int highscore;
-    ArrayList<Float> sc;
-    InitText initText;
-    DieText dieText;
-    ScoreText scoreText;
-    Paint paint;
+    private float dieRectStrength;
+    private ArrayList<Float> sc;
+    private InitText initText;
+    private DieText dieText;
+    private ScoreText scoreText;
+    private Paint paint;
     int score;
-    boolean savedScore;
+    private boolean savedScore;
 
     public GameScreen(Context context) {
         super(context);
@@ -50,12 +51,13 @@ public class GameScreen extends View {
         dead = true;
         replay = false;
         y = 0f;
-        jet = new Jet(Screen.width / 2, Screen.height - 100);
+        jet = new Jet(Screen.width / 2, Screen.height * 5 / 6);
         f4 = 255d;
         initText = new InitText();
         dieText = new DieText();
         highscore = readScore();
         scoreText = new ScoreText(highscore);
+        dieRectStrength = 0;
         start = false;
         f2 = 0d;
         f3 = 0d;
@@ -109,13 +111,11 @@ public class GameScreen extends View {
                 writeScore(score);
                 savedScore = true;
             }
-            dieText.draw(canvas, f2);
+            dieText.draw(canvas, (int) f2, (int) dieRectStrength);
+            dieRectStrength += (150 - dieRectStrength) / 10f;
             sc.set(2, sc.get(2) + (Screen.width / 13f - sc.get(2)) / 10f);
             sc.set(1, sc.get(1) + (Screen.height / 8 * 5 - sc.get(1)) / 10f);
             sc.set(0, sc.get(0) + (((Screen.width - scoreText.halfTextWidth(y)) / 2f) - sc.get(0)) / 10f);
-        }
-
-        if (dead && start && !replay) {
             f2 += (255d - f2) / 10d;
         }
 
@@ -152,7 +152,7 @@ public class GameScreen extends View {
         requestLayout();
     }
     private void createJetAndFirstObstacles() {
-        jet = new Jet(Screen.width / 2, Screen.height - 100);
+        jet = new Jet(Screen.width / 2, Screen.height * 5 / 6);
 
         b.add(new Obstacle(roundRandom(3), i, jet));
         i = 1;
